@@ -522,14 +522,22 @@ class SCons:
         # -- Ex. "iceprog"
         programmer = content["command"]
 
-        # -- Let's add the arguments for executing the programmer
-        if content.get("args"):
-            programmer += f" {content['args']}"
+
+## swap order to fix dfu-util error for pico-ice
+##  dfu-util -d 1209:b1c0 -a 0 -D --reset hardware.bin
+##  Error: Unexpected argument: hardware.bin
 
         # -- Some tools need extra arguments
         # -- (like dfu-util for example)
         if prog_info.get("extra_args"):
             programmer += f" {prog_info['extra_args']}"
+
+
+        # -- Let's add the arguments for executing the programmer
+        if content.get("args"):
+            programmer += f" {content['args']}"
+
+
 
         # -- Special cases for different programmers
 
